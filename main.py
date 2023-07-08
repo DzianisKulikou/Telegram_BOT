@@ -6,13 +6,12 @@ from aiogram.filters import Text, Command
 from bot_token import bot_token
 
 
-# Вместо BOT TOKEN HERE нужно вставить токен вашего бота,
-# полученный у @BotFather
-BOT_TOKEN: str = 'BOT TOKEN HERE'
-
 # Создаем объекты бота и диспетчера
 bot: Bot = Bot(bot_token)
 dp: Dispatcher = Dispatcher()
+
+# Список с ID администраторов бота
+admin_ids: list[int] = [1258908688]
 
 # Количество попыток, доступных пользователю в игре
 ATTEMPTS: int = 6
@@ -38,6 +37,7 @@ async def process_start_command(message: Message):
                                        'attempts': None,
                                        'total_games': 0,
                                        'wins': 0}
+    print(message.from_user.id)
 
 
 # Этот хэндлер будет срабатывать на команду "/help"
