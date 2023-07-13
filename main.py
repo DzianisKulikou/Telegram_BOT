@@ -1,39 +1,36 @@
 import random
-
+from environs import Env                             # Позволяет сохранять переменные в окружение
 from aiogram import Bot, Dispatcher
 from aiogram.types import Message
 from aiogram.filters import Text, Command, BaseFilter
-from bot_token import bot_token
 
 
 # Собственный фильтр, проверяющий юзера на админа
 class IsAdmin(BaseFilter):
-    def __init__(self, admin_ids: list[int]) -> None:
+    def __init__(self, admin_id: int) -> None:
         # В качестве параметра фильтр принимает список с целыми числами
-        self.admin_ids = admin_ids
+        self.admin_id = admin_id
 
     async def __call__(self, message: Message) -> bool:
-        return message.from_user.id in self.admin_ids
+        return message.from_user.id in self.admin_id
 
+
+env = Env()              # Создаем экземпляр класса Env
+env.read_env()           # Методом read_env() читаем файл .env и загружаем из него переменные в окружение
+
+bot_token = env('bot_token')      # Сохраняем значение переменной окружения в переменную bot_token
+admin_ids = env.int('admin_ids')   # Преобразуем значение переменной окружения к типу int
+                                  # и сохраняем в переменной admin_id
 
 # Создаем объекты бота и диспетчера
 bot: Bot = Bot(bot_token)
 dp: Dispatcher = Dispatcher()
-
-# Список с ID администраторов бота
-admin_ids: list[int] = [1258908688]
 
 # Количество попыток, доступных пользователю в игре
 ATTEMPTS: int = 6
 
 # Словарь, в котором будут храниться данные пользователя
 users: dict = {}
-
-
-# Этот хэндлер будет срабатывать, если апдейт от админа
-@dp.message(IsAdmin(admin_ids))
-async def answer_if_admins_update(message: Message):
-    await message.answer(text='Вы админ')
 
 
 # Функция возвращающая случайное целое число от 1 до 100
@@ -157,6 +154,12 @@ async def process_other_text_answers(message: Message):
     else:
         await message.answer('Я довольно ограниченный бот, давайте '
                              'просто сыграем в игру?')
+
+
+# Этот хэндлер будет срабатывать, если апдейт от админа
+@dp.message(IsAdmin(admin_ids))
+async def answer_if_admins_update(message: Message):
+    await message.answer(text='Вы админ')
 
 
 if __name__ == '__main__':
