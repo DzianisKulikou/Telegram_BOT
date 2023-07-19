@@ -2,7 +2,7 @@ from aiogram import Router
 import random
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.filters import Text, Command
-
+from keyboards.set_menu import keyboard
 
 
 router1: Router = Router()
@@ -52,6 +52,7 @@ async def process_cancel_command(message: Message):
         await message.answer('Вы вышли из игры. Если захотите сыграть '
                              'снова - напишите об этом')
         users[message.from_user.id]['in_game'] = False
+        await message.answer(text='Выбери игру:', reply_markup=keyboard)
     else:
         await message.answer('А мы итак с вами не играем. '
                              'Может, сыграем разок?')
@@ -79,6 +80,7 @@ async def process_negative_answer(message: Message):
     if not users[message.from_user.id]['in_game']:
         await message.answer('Жаль :(\n\nЕсли захотите поиграть - просто '
                              'напишите об этом')
+        await message.answer(text='Выбери игру:', reply_markup=keyboard)
     else:
         await message.answer('Мы же сейчас с вами играем. Присылайте, '
                              'пожалуйста, числа от 1 до 100')

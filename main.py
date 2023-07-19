@@ -2,8 +2,10 @@ from environs import Env                             # Позволяет сох
 from aiogram import Bot, Dispatcher
 from aiogram.types import Message
 from aiogram.filters import Command, BaseFilter
-from games import guess_the_number, rock_scissors_paper
+from games.guess_the_number import guess_the_number
+from games.rock_scissors_paper import rock_scissors_paper
 from keyboards.set_menu import keyboard
+
 
 # Собственный фильтр, проверяющий юзера на админа
 class IsAdmin(BaseFilter):
