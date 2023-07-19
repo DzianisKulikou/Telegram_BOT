@@ -1,5 +1,6 @@
 from environs import Env                             # Позволяет сохранять переменные в окружение
 from aiogram import Bot, Dispatcher
+from config_data.config import load_config
 from aiogram.types import Message
 from aiogram.filters import Command, BaseFilter
 from games.guess_the_number import guess_the_number
@@ -20,12 +21,12 @@ class IsAdmin(BaseFilter):
 env = Env()              # Создаем экземпляр класса Env
 env.read_env()           # Методом read_env() читаем файл .env и загружаем из него переменные в окружение
 
-bot_token = env('bot_token')      # Сохраняем значение переменной окружения в переменную bot_token
+config = load_config('.env>')
 admin_ids = env.int('admin_ids')   # Преобразуем значение переменной окружения к типу int
                                   # и сохраняем в переменной admin_id
 
 # Создаем объекты бота и диспетчера
-bot: Bot = Bot(bot_token)
+bot: Bot = Bot(config.tg_bot.token)
 dp: Dispatcher = Dispatcher()
 
 
