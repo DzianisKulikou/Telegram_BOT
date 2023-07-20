@@ -2,7 +2,7 @@ from environs import Env  # Позволяет сохранять перемен
 from aiogram import Bot, Dispatcher
 from config_data.config import load_config
 from aiogram import Router
-from aiogram.types import Message
+from aiogram.types import Message, BotCommand
 from aiogram.filters import Command, BaseFilter
 from games.guess_the_number import guess_the_number
 from games.rock_scissors_paper.handlers import user_handlers
@@ -42,6 +42,20 @@ dp.include_router(user_handlers.router2)
 dp.include_router(last_handlers.router100)
 
 
+async def set_main_menu(bot: Bot):
+
+    # Создаем список с командами и их описанием для кнопки menu
+    main_menu_commands = [
+        BotCommand(command='/start',
+                   description='Запусти меня с начала!'),
+        BotCommand(command='/help',
+                   description='Справка по работе бота!'),
+        BotCommand(command='/cancel',
+                   description='Выйти из игры в стартовое меню!')]
+
+    await bot.set_my_commands(main_menu_commands)
+
+
 # Этот хэндлер будет срабатывать на команду "/start"
 @router.message(Command(commands=['start']))
 async def process_start_command(message: Message):
@@ -55,4 +69,8 @@ async def process_help_command(message: Message):
 
 
 if __name__ == '__main__':
+    # Регистрируем асинхронную функцию в диспетчере,
+    # которая будет выполняться на старте бота,
+    dp.startup.register(set_main_menu)
+    # Запускаем поллинг
     dp.run_polling(bot)

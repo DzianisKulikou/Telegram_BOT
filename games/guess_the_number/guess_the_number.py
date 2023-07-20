@@ -48,14 +48,7 @@ async def process_stat_command(message: Message):
 # Этот хэндлер будет срабатывать на команду "/cancel"
 @router1.message(Command(commands=['cancel']))
 async def process_cancel_command(message: Message):
-    if users[message.from_user.id]['in_game']:
-        await message.answer('Вы вышли из игры. Если захотите сыграть '
-                             'снова - напишите об этом')
-        users[message.from_user.id]['in_game'] = False
         await message.answer(text='Выбери игру:', reply_markup=keyboard)
-    else:
-        await message.answer('А мы итак с вами не играем. '
-                             'Может, сыграем разок?')
 
 
 # Этот хэндлер будет срабатывать на согласие пользователя сыграть в игру
