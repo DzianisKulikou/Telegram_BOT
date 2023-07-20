@@ -7,4 +7,3 @@ button_2: KeyboardButton = KeyboardButton(text='Камень, ножницы, б
 
 # Создаем объект клавиатуры, добавляя в него кнопки
 keyboard: ReplyKeyboardMarkup = ReplyKeyboardMarkup(keyboard=[[button_1, button_2]], resize_keyboard=True)
-
