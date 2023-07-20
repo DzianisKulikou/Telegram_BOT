@@ -5,7 +5,7 @@ from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command, BaseFilter
 from games.guess_the_number import guess_the_number
-from games.rock_scissors_paper import rock_scissors_paper
+from games.rock_scissors_paper.handlers import user_handlers
 import last_handlers
 from keyboards.set_menu import keyboard
 from lexicon.lexicon_ru import lexicon_ru
@@ -38,7 +38,7 @@ dp: Dispatcher = Dispatcher()
 # Регистрируем роутеры в диспетчере
 dp.include_router(router)
 dp.include_router(guess_the_number.router1)
-#dp.include_router(rock_scissors_paper.router2)
+dp.include_router(user_handlers.router2)
 dp.include_router(last_handlers.router100)
 
 
