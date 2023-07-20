@@ -59,8 +59,8 @@ async def set_main_menu(bot: Bot):
 # Этот хэндлер будет срабатывать на команду "/start"
 @router.message(Command(commands=['start']))
 async def process_start_command(message: Message):
-    await message.answer(text='Выбери игру:', reply_markup=keyboard)
-
+    await message.answer(text='Выбери игру:', reply_markup=keyboard,
+                         input_field_placeholder='Разверните клавиатуру снизу!')
 
 # Этот хэндлер будет срабатывать на команду "/help"
 @router.message(Command(commands=['help']))

@@ -12,20 +12,23 @@ router2: Router = Router()
 # Этот хэндлер срабатывает на команду /start
 @router2.message(Text(text='Камень, ножницы, бумага'))
 async def process_start_command(message: Message):
-    await message.answer(text=lexicon_ru['start_rsp'], reply_markup=yes_no_kb)
+    await message.answer(text=lexicon_ru['start_rsp'], reply_markup=yes_no_kb,
+                         input_field_placeholder='Разверните клавиатуру снизу!')
 
 
 # Этот хэндлер срабатывает на согласие пользователя играть в игру
 @router2.message(Text(text=lexicon_ru['yes_button']))
 async def process_yes_answer(message: Message):
-    await message.answer(text=lexicon_ru['yes'], reply_markup=game_kb)
+    await message.answer(text=lexicon_ru['yes'], reply_markup=game_kb,
+                         input_field_placeholder='Разверните клавиатуру снизу!')
 
 
 # Этот хэндлер срабатывает на отказ пользователя играть в игру
 @router2.message(Text(text=lexicon_ru['no_button']))
 async def process_no_answer(message: Message):
     await message.answer(text=lexicon_ru['no'])
-    await message.answer(text='Выбери игру:', reply_markup=keyboard)
+    await message.answer(text='Выбери игру:', reply_markup=keyboard,
+                         input_field_placeholder='Разверните клавиатуру снизу!')
 
 
 # Этот хэндлер срабатывает на любую из игровых кнопок
@@ -37,4 +40,5 @@ async def process_game_button(message: Message):
     await message.answer(text=f'{lexicon_ru["bot_choice"]} '
                               f'- {lexicon_ru[bot_choice]}')
     winner = get_winner(message.text, bot_choice)
-    await message.answer(text=lexicon_ru[winner], reply_markup=yes_no_kb)
+    await message.answer(text=lexicon_ru[winner], reply_markup=yes_no_kb,
+                         input_field_placeholder='Разверните клавиатуру снизу!')
